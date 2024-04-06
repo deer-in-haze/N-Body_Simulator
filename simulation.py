@@ -23,7 +23,8 @@ class Simulation:
         com = CentreOfMass(self.particles.mass_list, self.particles.position_list, self.particles.velocity_list)
         com.centre_positions_and_velocities()
 
-        fig_settings = FigureSettings()
+        fig_settings = FigureSettings(particle_list=self.particles)
+        fig_settings.calculate_limits()
         fig = Figure(self.particles, fig_settings)
         fig.plot_figure()
 
