@@ -1,3 +1,6 @@
+"""MATHEMATICAL"""
+PI = 3.14159265359
+
 """ASTRONOMICAL"""
 AU = 1.496e11  # astronomical unit
 GRAVITY_CONST = 6.67e-11
