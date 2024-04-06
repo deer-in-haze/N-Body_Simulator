@@ -1,4 +1,5 @@
 import numpy as np
+from constants import PI
 from decorators import status_update
 
 
@@ -42,3 +43,22 @@ class Acceleration:
         acceleration_x = self.gravity * (dx * inv_r3) @ self.mass_list
         acceleration_y = self.gravity * (dy * inv_r3) @ self.mass_list
         return np.hstack((acceleration_x, acceleration_y))
+
+
+class OrbitalVelocity:
+    def __init__(self, planet_system_data):
+        self.planet_system_data = planet_system_data
+        self.planet_count = planet_system_data.planet_count
+        self.velocity_list = []
+        self.semi_major_axis_list = planet_system_data.semi_major_axis_list
+        self.orbital_period_list = planet_system_data.orbital_period_list
+        self.host_mass = planet_system_data.host_mass
+
+    def calculate_orbital_velocity(self):
+        for semi_major_axis, orbital_period in zip(self.semi_major_axis_list, self.orbital_period_list):
+            orbital_velocity = (2 * PI * semi_major_axis) / orbital_period
+            self.velocity_list.append([0, orbital_velocity])
+
+        print(self.velocity_list)
+
+
