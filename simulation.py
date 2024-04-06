@@ -1,9 +1,10 @@
 from matplotlib import pyplot as plt
 from particles import Particles
-from animation import Animation
+from animation import ParticleAnimation
 from calculations import CentreOfMass, Acceleration
 from settings import Settings
 from figure import Figure
+from figure_settings import FigureSettings
 from decorators import status_update
 
 
@@ -22,13 +23,13 @@ class Simulation:
         com = CentreOfMass(self.particles.mass_list, self.particles.position_list, self.particles.velocity_list)
         com.centre_positions_and_velocities()
 
-        fig = Figure(self.particles)
+        fig_settings = FigureSettings()
+        fig = Figure(self.particles, fig_settings)
         fig.plot_figure()
 
         acceleration = Acceleration(self.particles.position_list, self.particles.mass_list,
                                     self.settings.get_softening(), self.settings.get_gravity_const())
 
-        animation_func = Animation(fig, acceleration, self.particles, self.settings)
+        animation_func = ParticleAnimation(fig, acceleration, self.particles, self.settings, lines_on=True)
         animation_func.create_animation()
-        plt.show()
         animation_func.save_animation(filename=self.filename)
