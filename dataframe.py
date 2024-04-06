@@ -1,4 +1,5 @@
 import pandas as pd
+from calculations import OrbitalVelocity
 
 
 class Data:
@@ -26,6 +27,14 @@ class Data:
     def get_group(self, hostname):
         self.planet_system = self.group_data().get_group(hostname)
         return self.planet_system
+
+
+data = Data('/home/migle/PycharmProjects/n_body_simulator/nasa_exoplanet_data.csv')
+data.read_data()
+data.clean_data()
+data.group_data()
+
+system = data.get_group('ups And')  # veliau pakeisiu
 
 
 class PlanetSystemData:
@@ -60,3 +69,8 @@ class PlanetSystemData:
         print(self.orbital_period_list)
         print(self.planet_mass_list)
 
+
+planet_system_data = PlanetSystemData(system)
+planet_system_data.get_planet_data()
+calc = OrbitalVelocity(planet_system_data)
+calc.calculate_orbital_velocity()
