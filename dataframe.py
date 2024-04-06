@@ -25,5 +25,38 @@ class Data:
 
     def get_group(self, hostname):
         self.planet_system = self.group_data().get_group(hostname)
-        print(self.planet_system)
+        return self.planet_system
+
+
+class PlanetSystemData:
+    def __init__(self, planet_system):
+        self.planet_system = planet_system
+        self.host_star = self.planet_system.iloc[0, 1]
+        self.host_mass = self.planet_system.iloc[0, 7]
+        self.planet_count = self.planet_system.iloc[0, 3]
+        self.planet_list = []
+        self.planet_mass_list = []
+        self.semi_major_axis_list = []
+        self.orbital_period_list = []
+        self.orbital_velocity_list = []
+        self.particle_list = []
+        self.system = {}
+
+    def get_planet_data(self):
+        for planet_name, planet_mass, a, T in zip(self.planet_system.loc[:, 'pl_name'],
+                                                  self.planet_system.loc[:, 'pl_bmassj'],
+                                                  self.planet_system.loc[:, 'pl_orbsmax'],
+                                                  self.planet_system.loc[:, 'pl_orbper']):
+            self.planet_list.append(planet_name)
+            self.planet_mass_list.append(planet_mass)
+            self.semi_major_axis_list.append(a)
+            self.orbital_period_list.append(T)
+
+        print(self.planet_count)
+        print(self.host_star)
+        print(self.host_mass)
+        print(self.planet_list)
+        print(self.semi_major_axis_list)
+        print(self.orbital_period_list)
+        print(self.planet_mass_list)
 
