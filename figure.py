@@ -13,8 +13,8 @@ class Figure:
         self.position_list = particle_list.position_list
         self.mass_list = particle_list.mass_list
 
-        self._xlim = [-2 * AU, 2 * AU]
-        self._ylim = [-2 * AU, 2 * AU]
+        self.xlim = [-figure_settings.x_limit, figure_settings.x_limit]
+        self.ylim = [-figure_settings.y_limit, figure_settings.y_limit]
 
         self.background = figure_settings.background
         self.edge_colour = figure_settings.edge_colour
@@ -32,7 +32,7 @@ class Figure:
     def plot_figure(self):
         self.figure = plt.figure()
         self.figure.patch.set_facecolor(self.background)
-        axes = plt.axes(xlim=self._xlim, ylim=self._ylim)
+        axes = plt.axes(xlim=self.xlim, ylim=self.ylim)
         axes.set_aspect(1)
         axes.set_facecolor(self.plot_colour)
         self.scatter = axes.scatter(self.position_list[:, 0], self.position_list[:, 1], s=self.size, color=self.particle_colour,
