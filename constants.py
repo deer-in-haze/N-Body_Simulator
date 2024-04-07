@@ -6,6 +6,7 @@ AU = 1.496e11  # astronomical unit
 GRAVITY_CONST = 6.67e-11
 MASS_SUN = 1.988e30
 MASS_JUPITER = 1.898e27
+MASS_EARTH = 5.972e24
 
 """TIMESTEP"""
 DAY = 86400  # [s]
