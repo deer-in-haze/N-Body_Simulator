@@ -1,5 +1,6 @@
 import numpy as np
 from decorators import status_update
+from constants import MASS_SUN
 
 
 class Particle:
@@ -17,6 +18,14 @@ class Particles:
         self.position_list = np.zeros((0, 2))
         self.velocity_list = np.zeros((0, 2))
         self.acceleration_list = np.zeros((0, 2))
+
+    def create_particles(self, planet_system_data, orbital_velocity_instance):
+        self.particle_list.append(Particle(planet_system_data.host_mass * MASS_SUN, [0, 0], [0, 0]))  # system host star
+
+        for i in range(planet_system_data.planet_count):
+            self.particle_list.append(
+                Particle(planet_system_data.planet_mass_list[i], planet_system_data.position_list[i],
+                         orbital_velocity_instance.velocity_list[i]))
 
     @status_update
     def add_particle(self, new_particle):
