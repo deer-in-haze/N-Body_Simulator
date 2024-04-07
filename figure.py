@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
-from constants import AU
 from decorators import status_update
 
 
@@ -21,7 +19,7 @@ class Figure:
         self.plot_colour = figure_settings.plot_colour
         self.particle_colour = figure_settings.particle_colour
         self.custom_colours = figure_settings.custom_colours
-        self.size = np.log10(self.mass_list)
+        self.size = np.log2(self.mass_list)
         self.sizes = figure_settings.custom_sizes
         self.line_weight = figure_settings.line_weight
         self.line_colour = figure_settings.line_colour
@@ -35,9 +33,15 @@ class Figure:
         axes = plt.axes(xlim=self.xlim, ylim=self.ylim)
         axes.set_aspect(1)
         axes.set_facecolor(self.plot_colour)
-        self.scatter = axes.scatter(self.position_list[:, 0], self.position_list[:, 1], s=self.size, color=self.particle_colour,
+        self.scatter = axes.scatter(self.position_list[:, 0],
+                                    self.position_list[:, 1],
+                                    s=self.size,
+                                    color=self.particle_colour,
                                     edgecolors=self.edge_colour, lw=self.line_weight)
 
         for pos in self.position_list:
-            line, = axes.plot(pos[0], pos[1], color=self.line_colour, linestyle=self.line_style, linewidth=self.line_weight)
+            line, = axes.plot(pos[0], pos[1],
+                              color=self.line_colour,
+                              linestyle=self.line_style,
+                              linewidth=self.line_weight)
             self.lines.append(line)
