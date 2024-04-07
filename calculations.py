@@ -54,11 +54,8 @@ class OrbitalVelocity:
         self.orbital_period_list = planet_system_data.orbital_period_list
         self.host_mass = planet_system_data.host_mass
 
+    @status_update
     def calculate_orbital_velocity(self):
         for semi_major_axis, orbital_period in zip(self.semi_major_axis_list, self.orbital_period_list):
             orbital_velocity = (2 * PI * semi_major_axis) / orbital_period
             self.velocity_list.append([0, orbital_velocity])
-
-        print(self.velocity_list)
-
-
