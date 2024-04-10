@@ -1,32 +1,23 @@
-import sys
 from simulation import Simulation
 from particle_systems import three_body_system
-from dataframe import Data, PlanetSystemData
-from calculations import OrbitalVelocity
-from particles import Particles
+from particle_system_creator import ParticleSystemCreator
+from data_processing import DataProcessor
+from constants import NASA_DATABASE_API_KEY
 
 if __name__ == '__main__':
     data_path = '/home/migle/PycharmProjects/n_body_simulator/nasa_exoplanet_data.csv'
-    host_name = 'GJ 1148'
+    hostname = '11 Com'
     particle_system = three_body_system
     title = 'test_sample.gif'
+    update = False
 
-    if host_name is not None:
-        data = Data(data_path)
-        data.read_data()
-        data.clean_data()
-        data.group_data()
-        group_data = data.get_group(host_name)
-        if data.has_missing_values:
-            print(f'{host_name} system is missing some data, please choose a different host star.')
-            sys.exit(1)
-        planet_system_data = PlanetSystemData(group_data)
-        planet_system_data.get_planet_data()
-        calc = OrbitalVelocity(planet_system_data)
-        calc.calculate_orbital_velocity()
-        particles_from_system = Particles()
-        particles_from_system.create_particles(planet_system_data, calc)
-        particle_system = particles_from_system.particle_list
+    if update:
+        processor = DataProcessor(NASA_DATABASE_API_KEY)
+        processor.update_data()
+
+    if hostname is not None:
+        particle_system_creator = ParticleSystemCreator(hostname)
+        particle_system = particle_system_creator.create_particle_system()
 
     simulation = Simulation(particle_system, title)
 
