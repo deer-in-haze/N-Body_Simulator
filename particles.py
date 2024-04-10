@@ -19,6 +19,7 @@ class Particles:
         self.velocity_list = np.zeros((0, 2))
         self.acceleration_list = np.zeros((0, 2))
 
+    @status_update
     def create_particles(self, planet_system_data, orbital_velocity_instance):
         self.particle_list.append(Particle(planet_system_data.host_mass * MASS_SUN, [0, 0], [0, 0]))  # system host star
 
