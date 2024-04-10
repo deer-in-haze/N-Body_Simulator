@@ -1,4 +1,3 @@
-from matplotlib import pyplot as plt
 from particles import Particles
 from animation import ParticleAnimation
 from calculations import CentreOfMass, Acceleration
