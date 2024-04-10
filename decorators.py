@@ -6,7 +6,19 @@ def status_update(func):
         else:
             print(f'Initiating {func.__name__}')
 
-        func(*args, **kwargs)
+        result = func(*args, **kwargs)
         print('Done')
+        return result
 
     return wrapper
+
+
+def singleton(cls):
+    instances = {}
+
+    def get_instance(api_url):
+        if cls not in instances:
+            instances[cls] = cls(api_url)
+        return instances[cls]
+
+    return get_instance
