@@ -11,10 +11,12 @@ class CentreOfMass:
         self.com_p = np.zeros((0, 2))
         self.com_v = np.zeros((0, 2))
 
+    @status_update
     def centre_of_mass_position(self):
         self.com_p = np.sum(np.multiply(self.mass_list, self.position_list), axis=0) / np.sum(self.mass_list, axis=0)
         return self.com_p
 
+    @status_update
     def centre_of_mass_velocity(self):
         self.com_v = np.sum(np.multiply(self.mass_list, self.velocity_list), axis=0) / np.sum(self.mass_list, axis=0)
         return self.com_v
