@@ -23,13 +23,12 @@ class FigureSettings:
             for i in range(len(self.particle_list.position_list)):
                 for j in range(i + 1, len(self.particle_list.position_list)):
 
-                    distance = ((self.particle_list.position_list[j][0] - self.particle_list.position_list[i][0]) ** 2 + (
-                                self.particle_list.position_list[j][1] - self.particle_list.position_list[i][1]) ** 2) ** 0.5
+                    distance = ((self.particle_list.position_list[j][0] -
+                                 self.particle_list.position_list[i][0]) ** 2 + (
+                                self.particle_list.position_list[j][1] -
+                                self.particle_list.position_list[i][1]) ** 2) ** 0.5
                     if distance > max_distance:
                         max_distance = distance
 
             self.x_limit = max_distance + max_distance * 0.1
             self.y_limit = max_distance + max_distance * 0.1
-
-
-
