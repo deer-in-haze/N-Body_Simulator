@@ -1,6 +1,7 @@
-from constants import GRAVITY_CONST, DAY
+from constants import GRAVITY_CONST, DAY, HOUR
+from decorators import singleton
 
-
+@singleton
 class Settings:
     def __init__(self, **kwargs):
         self._gravity_const = kwargs.get('gravity_const', GRAVITY_CONST)
@@ -26,5 +27,9 @@ class Settings:
     def get_softening(self):
         return self._softening
 
+    def set_half_step_size(self, half_step_size):
+        self._half_step_size = half_step_size
+
     def get_half_step_size(self):
         return self._half_step_size
+
