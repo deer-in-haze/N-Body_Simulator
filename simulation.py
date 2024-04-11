@@ -8,9 +8,10 @@ from decorators import status_update
 
 
 class Simulation:
-    def __init__(self, particle_system, filename):
+    def __init__(self, particle_system, settings, frames, filename):
         self.filename = filename
-        self.settings = Settings()
+        self.settings = settings
+        self.frames = frames
         self.particles = Particles()
         self.particle_system = particle_system
 
@@ -30,6 +31,7 @@ class Simulation:
         acceleration = Acceleration(self.particles.position_list, self.particles.mass_list,
                                     self.settings.get_softening(), self.settings.get_gravity_const())
 
-        animation_func = ParticleAnimation(fig, acceleration, self.particles, self.settings, lines_on=True)
+        animation_func = ParticleAnimation(fig, acceleration, self.particles, self.settings, lines_on=True,
+                                           frames=self.frames)
         animation_func.create_animation()
         animation_func.save_animation(filename=self.filename)
