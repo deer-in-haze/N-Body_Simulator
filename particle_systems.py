@@ -2,17 +2,17 @@ from particles import Particle
 from constants import AU, OFFSET
 
 """PARTICLE MATRIX"""
-p1 = Particle(100000, [0, 0], [0, 0])
-p2 = Particle(500, [-10, 0], [2, -3])
-p3 = Particle(1000, [2,0], [1, 0])
+p1 = Particle(500, [-3, 3], [0, 0])
+p2 = Particle(500, [-3, 0], [0, 0])
+p3 = Particle(500, [-3,-3], [0, 0])
 p4 = Particle(500, [0,3],[0, 0])
-p5 = Particle(500, [0,0], [0, 0])
+p5 = Particle(1000, [0,0], [0, 0])
 p6 = Particle(500, [0, -3], [0, 0])
 p7 = Particle(1000, [3, 3], [0, 0])
 p8 = Particle(500, [3, 0], [0, 0])
-p9 = Particle(1000,[3, -3], [0, 0])
+p9 = Particle(500,[3, -3], [0, 0])
 """LIST"""
-particle_list = [p1, p2]
+particle_list = [p1, p2, p3, p4, p5, p6, p7, p8, p9]
 
 """SOLAR SYSTEM"""
 sun = Particle(1.988e30, [OFFSET, OFFSET], [0, 0])
