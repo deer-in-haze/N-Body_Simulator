@@ -3,10 +3,10 @@ from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
 from simulation import Simulation
-from particle_systems import three_body_system, binary_system, earth_system, inner_solar_system
+from particle_systems import three_body_system, binary_system, earth_system, inner_solar_system, particle_list
 from particle_system_creator import ParticleSystemCreator
 from data_processing import DataProcessor
-from constants import NASA_DATABASE_API_KEY, DAY, HOUR
+from constants import NASA_DATABASE_API_KEY, DAY, HOUR, MIN, SMALL_MASS_TIMESTEP
 from settings import Settings
 
 
@@ -15,6 +15,7 @@ def run_interface():
         hostname = hostname_entry.get()
         particle_system = particle_system_combobox.get()
         time_step = time_step_combobox.get()
+        gravity_constant = gravity_constant_combobox.get()
         animation_length = int(animation_length_entry.get())
         title = title_entry.get()
         update = update_var.get()
@@ -31,6 +32,8 @@ def run_interface():
             particle_system = earth_system
         elif particle_system == 'Inner solar system':
             particle_system = inner_solar_system
+        elif particle_system == '9 particles':
+            particle_system = particle_list
 
         if hostname:
             particle_system_creator = ParticleSystemCreator(hostname)
@@ -39,10 +42,17 @@ def run_interface():
         settings = Settings()
         if time_step == 'Day':
             settings.set_step_size(DAY)
-            settings.set_half_step_size(DAY / 2)
         elif time_step == 'Hour':
             settings.set_step_size(HOUR)
-            settings.set_half_step_size(HOUR / 2)
+        elif time_step == 'Minute':
+            settings.set_step_size(MIN)
+        elif time_step == '20 ms':
+            settings.set_step_size(SMALL_MASS_TIMESTEP)
+
+        if gravity_constant == "0.001":
+            settings.set_gravity_const(0.001)
+        elif gravity_constant == "6.67e-11":
+            settings.set_gravity_const(6.67e-11)
 
         frames = int(animation_length / 0.02)
         simulation = Simulation(particle_system, settings, frames, title)
@@ -79,27 +89,35 @@ def run_interface():
 
     root = tk.Tk()
     root.title("N-Body Simulation Interface")
-    root.geometry("400x300")
+    root.geometry("400x400")
 
     tk.Label(root, text="Hostname:").pack()
     hostname_entry = tk.Entry(root, width=40)
     hostname_entry.pack()
 
     tk.Label(root, text="Particle system:").pack()
-    particle_system_options = ['Three body system', 'Binary system', 'Earth system', 'Inner solar system']
+    particle_system_options = ['Three body system', 'Binary system', 'Earth system', 'Inner solar system',
+                               '9 particles']
     particle_system_combobox = ttk.Combobox(root, values=particle_system_options, width=37)
     particle_system_combobox.pack()
     particle_system_combobox.set('Select particle system')
 
     tk.Label(root, text="Time step:").pack()
-    time_step_options = ['Day', 'Hour', 'empty1', 'empty2']
+    time_step_options = ['Day', 'Hour', 'Minute', '20 ms']
     time_step_combobox = ttk.Combobox(root, values=time_step_options, width=37)
     time_step_combobox.pack()
     time_step_combobox.set('Select time step')
 
+    tk.Label(root, text="Gravity constant:").pack()
+    gravity_constant_options = ['6.67e-11', '0.001']
+    gravity_constant_combobox = ttk.Combobox(root, values=gravity_constant_options, width=37)
+    gravity_constant_combobox.pack()
+    gravity_constant_combobox.set('Select gravity constant')
+
     tk.Label(root, text="Animation length:").pack()
     animation_length_entry = tk.Entry(root, width=40)
     animation_length_entry.pack()
+    animation_length_entry.insert(0, '4')
 
     tk.Label(root, text="Title:").pack()
     title_entry = tk.Entry(root, width=40)
