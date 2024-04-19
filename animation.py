@@ -4,46 +4,47 @@ from decorators import status_update
 
 
 class ParticleAnimation:
-    def __init__(self, figure, acceleration, particle_list, settings, **kwargs):
-        self.acceleration_list = particle_list.acceleration_list
-        self.velocity_list = particle_list.velocity_list
-        self.position_list = particle_list.position_list
-        self.softening = settings.get_softening()
-        self.step_size = settings.get_step_size()
-        self.half_step_size = settings.get_half_step_size()
-        self.acceleration = acceleration
-        self.scatter = figure.scatter
-        self.figure = figure.figure
-        self.lines = figure.lines
-        self.lines_on = kwargs.get('lines_on', False)
+    def __init__(self, figure, acceleration, particle_list, settings, animation_settings):
+        self.__acceleration_list = particle_list.get_acceleration_list()
+        self.__velocity_list = particle_list.get_velocity_list()
+        self.__position_list = particle_list.get_position_list()
+        self.__softening = settings.get_softening()
+        self.__step_size = settings.get_step_size()
+        self.__half_step_size = settings.get_half_step_size()
+        self.__acceleration = acceleration
+        self.__scatter = figure.get_scatter()
+        self.__figure = figure.get_figure()
+        self.__lines = figure.get_lines()
+        self.__lines_on = animation_settings.get_lines()
 
-        self.frames = kwargs.get('frames', 200)
-        self.interval = kwargs.get('interval', 20)
+        self.__frames = animation_settings.get_frames()
+        self.__interval = animation_settings.get_interval()
 
-        self.blit = False
-        self.anim = None
+        self.__blit = animation_settings.get_blit()
+        self.__anim = None
 
-    def animate(self, *args):
-        self.velocity_list += self.acceleration_list * self.half_step_size
-        self.position_list += self.velocity_list * self.step_size
-        self.acceleration_list = self.acceleration.acceleration_calculation()
-        self.velocity_list += self.acceleration_list * self.half_step_size
-        self.scatter.set_offsets(self.position_list)
+    def __animate(self, i):
+        self.__velocity_list += self.__acceleration_list * self.__half_step_size
+        self.__position_list += self.__velocity_list * self.__step_size
+        self.__acceleration_list = self.__acceleration.acceleration_calculation()
+        self.__velocity_list += self.__acceleration_list * self.__half_step_size
+        self.__scatter.set_offsets(self.__position_list)
 
-        if self.lines_on:
-            for line, position in zip(self.lines, self.position_list):
+        if self.__lines_on:
+            for line, position in zip(self.__lines, self.__position_list):
                 line.set_xdata(np.append(line.get_xdata(), position[0]))
                 line.set_ydata(np.append(line.get_ydata(), position[1]))
 
-                # limits shown data points
-                line.set_xdata(line.get_xdata()[-self.frames:])
-                line.set_ydata(line.get_ydata()[-self.frames:])
+                line.set_xdata(line.get_xdata()[-self.__frames:])
+                line.set_ydata(line.get_ydata()[-self.__frames:])
 
     @status_update
     def create_animation(self):
-        self.anim = animation.FuncAnimation(self.figure, self.animate, frames=self.frames, interval=self.interval,
-                                            blit=self.blit)
+        self.__anim = animation.FuncAnimation(self.__figure, self.__animate,
+                                              frames=self.__frames,
+                                              interval=self.__interval,
+                                              blit=self.__blit)
 
     @status_update
     def save_animation(self, filename='test.gif'):
-        self.anim.save(filename, writer='pillow')
+        self.__anim.save(filename, writer='pillow')
