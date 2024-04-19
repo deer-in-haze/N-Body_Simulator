@@ -8,18 +8,18 @@ from decorators import status_update
 
 class ParticleSystemCreator:
     def __init__(self, hostname):
-        self.hostname = hostname
+        self._hostname = hostname
 
     @status_update
     def create_particle_system(self):
         processor = DataProcessor(NASA_DATABASE_API_KEY)
         processor.load_data('clean')
         grouped_data = processor.group_data()
-        appender = DataListCreator(grouped_data, self.hostname)
+        appender = DataListCreator(grouped_data, self._hostname)
         appender.create_data_list()
         calc = OrbitalVelocity(appender)
         calc.calculate_orbital_velocity()
-        particles_from_system = Particles()
-        particles_from_system.create_particles(appender, calc)
-        particle_system = particles_from_system.particle_list
+        particles = Particles()
+        particles.create_particles(appender, calc)
+        particle_system = particles.get_particle_list()
         return particle_system
