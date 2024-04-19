@@ -4,44 +4,56 @@ from decorators import status_update
 
 
 class Figure:
-    def __init__(self, particle_list, figure_settings):
-        self.figure = plt.figure(figsize=figure_settings.fig_size)
-        self.scatter = None
-        self.lines = []
-        self.position_list = particle_list.position_list
-        self.mass_list = particle_list.mass_list
+    def __init__(self, particle_list, limits, figure_settings):
+        self.__background = figure_settings.get_background()
+        self.__edge_colour = figure_settings.get_edge_colour()
+        self.__plot_colour = figure_settings.get_plot_colour()
+        self.__particle_colour = figure_settings.get_particle_colour()
+        self.__custom_colours = figure_settings.get_custom_colours()
+        self.__size = np.log2(particle_list.get_mass_list())
+        self.__sizes = figure_settings.get_custom_sizes()
+        self.__line_weight = figure_settings.get_line_weight()
+        self.__line_colour = figure_settings.get_line_colour()
+        self.__line_style = figure_settings.get_line_style()
+        self.__line_custom_colours = figure_settings.get_line_custom_colours()
 
-        self.xlim = [-figure_settings.x_limit, figure_settings.x_limit]
-        self.ylim = [-figure_settings.y_limit, figure_settings.y_limit]
+        self.__figure = plt.figure(figsize=figure_settings.get_fig_size())
+        self.__scatter = None
+        self.__lines = []
+        self.__position_list = particle_list.get_position_list()
 
-        self.background = figure_settings.background
-        self.edge_colour = figure_settings.edge_colour
-        self.plot_colour = figure_settings.plot_colour
-        self.particle_colour = figure_settings.particle_colour
-        self.custom_colours = figure_settings.custom_colours
-        self.size = np.log2(self.mass_list)
-        self.sizes = figure_settings.custom_sizes
-        self.line_weight = figure_settings.line_weight
-        self.line_colour = figure_settings.line_colour
-        self.line_style = figure_settings.line_style
-        self.line_custom_colours = figure_settings.line_custom_colours
+        self.__xlim = [-limits.get_limit(), limits.get_limit()]
+        self.__ylim = [-limits.get_limit(), limits.get_limit()]
+
+    def get_figure(self):
+        return self.__figure
+
+    def get_scatter(self):
+        return self.__scatter
+
+    def get_lines(self):
+        return self.__lines
+
+    def get_position_list(self):
+        return self.__position_list
+
 
     @status_update
     def plot_figure(self):
-        self.figure = plt.figure()
-        self.figure.patch.set_facecolor(self.background)
-        axes = plt.axes(xlim=self.xlim, ylim=self.ylim)
+        self.__figure = plt.figure()
+        self.__figure.patch.set_facecolor(self.__background)
+        axes = plt.axes(xlim=self.__xlim, ylim=self.__ylim)
         axes.set_aspect(1)
-        axes.set_facecolor(self.plot_colour)
-        self.scatter = axes.scatter(self.position_list[:, 0],
-                                    self.position_list[:, 1],
-                                    s=self.size,
-                                    color=self.particle_colour,
-                                    edgecolors=self.edge_colour, lw=self.line_weight)
+        axes.set_facecolor(self.__plot_colour)
+        self.__scatter = axes.scatter(self.__position_list[:, 0],
+                                      self.__position_list[:, 1],
+                                      s=self.__size,
+                                      color=self.__particle_colour,
+                                      edgecolors=self.__edge_colour, lw=self.__line_weight)
 
-        for pos in self.position_list:
+        for pos in self.__position_list:
             line, = axes.plot(pos[0], pos[1],
-                              color=self.line_colour,
-                              linestyle=self.line_style,
-                              linewidth=self.line_weight)
-            self.lines.append(line)
+                              color=self.__line_colour,
+                              linestyle=self.__line_style,
+                              linewidth=self.__line_weight)
+            self.__lines.append(line)
