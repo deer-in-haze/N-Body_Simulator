@@ -1,4 +1,12 @@
-from interface import run_interface
+import tkinter as tk
+from main_interface import MainApplication
 
-if __name__ == '__main__':
-    run_interface()
+
+def main():
+    root = tk.Tk()
+    app = MainApplication(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
