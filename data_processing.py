@@ -1,11 +1,31 @@
+from abc import ABC, abstractmethod
 import pandas as pd
 import requests
 from constants import DATA_FOLDER, ORIGINAL_DATA_FILENAME, CLEAN_DATA_FILENAME
 from decorators import status_update, singleton
 
+class DataProcessor(ABC):
 
-@singleton
-class DataProcessor:
+    @abstractmethod
+    def load_data(self):
+        pass
+
+    @abstractmethod
+    def _analyse_data(self):
+        pass
+
+    @abstractmethod
+    def _clean_data(self):
+        pass
+
+    @abstractmethod
+    def _save_data(self):
+        pass
+
+
+
+#@singleton
+class NASADataProcessor(DataProcessor):
     def __init__(self, api_url):
         self.__api_url = api_url
         self.__destination_path = DATA_FOLDER
@@ -28,7 +48,7 @@ class DataProcessor:
         self.__df = self.__df.loc[most_recent_data_index]
 
     @status_update
-    def __analyse_data(self):
+    def _analyse_data(self):
         has_missing_values = self.__df.isna().any().any()
         print(f'Dataframe has missing values: {has_missing_values}')
         rows_with_missing_data = self.__df[self.__df.isna().any(axis=1)]
@@ -41,9 +61,15 @@ class DataProcessor:
         if has_missing_values:
             self.__df.dropna(inplace=True)
 
+    @status_update
+    def _clean_data(self):
+        self.__delete_outdated_data()
+        self.__handle_missing_data()
+
+
 
     @status_update
-    def __save_data(self, option):
+    def _save_data(self, option):
         if option == "original":
             with open(self.__destination_path + self.__original_file_name, 'wb') as file:
                 file.write(self.__original_data)
@@ -65,10 +91,9 @@ class DataProcessor:
     @status_update
     def update_data(self):
         self.__fetch_data()
-        self.__save_data("original")
+        self._save_data("original")
         self.load_data("original")
-        self.__analyse_data()
-        self.__delete_outdated_data()
-        self.__handle_missing_data()
-        self.__analyse_data()
-        self.__save_data("df")
+        self._analyse_data()
+        self._clean_data()
+        self._analyse_data()
+        self._save_data("df")
