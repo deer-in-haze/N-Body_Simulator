@@ -5,11 +5,11 @@ from PIL import Image, ImageTk
 from simulation import Simulation
 from particle_systems import three_body_system, binary_system, earth_system, inner_solar_system, particle_list
 from particle_system_creator import ParticleSystemCreator
-from data_processing import DataProcessor
+from data_processing import NASADataProcessor
 from constants import NASA_DATABASE_API_KEY, DAY, HOUR, MIN, SMALL_MASS_TIMESTEP
-from settings import Settings
+from simulation_settings import SimulationSettings
 from settings_interface import SettingsWindow
-from figure_settings import FigureSettingsBuilder
+from figure_settings import FigureSettings
 
 
 class MainApplication:
@@ -67,7 +67,7 @@ class MainApplication:
 
     def setup_default_settings(self):
         # Default settings for the simulation
-        self.custom_settings = FigureSettingsBuilder().build()
+        self.custom_settings = FigureSettings.Builder().build()
 
     def open_settings(self):
         settings_window = tk.Toplevel(self.master)
@@ -110,7 +110,7 @@ class MainApplication:
         update = self.update_var.get()
 
         if update:
-            processor = DataProcessor(NASA_DATABASE_API_KEY)
+            processor = NASADataProcessor(NASA_DATABASE_API_KEY)
             processor.update_data()
 
         if particle_system == 'Binary system':
@@ -128,27 +128,27 @@ class MainApplication:
             particle_system_creator = ParticleSystemCreator(hostname)
             particle_system = particle_system_creator.create_particle_system()
 
-        settings = Settings()
         if time_step == 'Day':
-            settings.set_step_size(DAY)
+            step_size = DAY
         elif time_step == 'Hour':
-            settings.set_step_size(HOUR)
+            step_size = HOUR
         elif time_step == 'Minute':
-            settings.set_step_size(MIN)
+            step_size = MIN
         elif time_step == '20 ms':
-            settings.set_step_size(SMALL_MASS_TIMESTEP)
+            step_size = SMALL_MASS_TIMESTEP
 
         if gravity_constant == "0.001":
-            settings.set_gravity_const(0.001)
+            gravity_const = 0.001
         elif gravity_constant == "6.67e-11":
-            settings.set_gravity_const(6.67e-11)
+            gravity_const = 6.67e-11
 
-        if self.custom_settings is None:
-            self.setup_default_settings()
+        #if self.custom_settings is None:
+       #     self.setup_default_settings()
 
         frames = int(animation_length / 0.02)
-        simulation = Simulation(particle_system, settings, self.custom_settings, frames, title)
+        simulation = Simulation(particle_system, step_size, gravity_const, frames, title)
         simulation.start()
 
         messagebox.showinfo("Simulation", "Simulation is complete!")
+        print(animation_length)
         self.open_gif_window(title)
