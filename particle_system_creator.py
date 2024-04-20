@@ -1,5 +1,5 @@
 from data_list_creator import DataListCreator
-from data_processing import DataProcessor
+from data_processing import NASADataProcessor
 from calculations import OrbitalVelocity
 from particles import Particles
 from constants import NASA_DATABASE_API_KEY
@@ -12,7 +12,7 @@ class ParticleSystemCreator:
 
     @status_update
     def create_particle_system(self):
-        processor = DataProcessor(NASA_DATABASE_API_KEY)
+        processor = NASADataProcessor(NASA_DATABASE_API_KEY)
         processor.load_data('clean')
         grouped_data = processor.group_data()
         appender = DataListCreator(grouped_data, self._hostname)
