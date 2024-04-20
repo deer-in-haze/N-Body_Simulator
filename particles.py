@@ -1,9 +1,10 @@
+from abc import ABC, abstractmethod
 import numpy as np
 from decorators import status_update
 from constants import MASS_SUN
 
 
-class Particle:
+class Body(ABC):
     def __init__(self, mass, position, velocity):
         self.__mass = mass
         self.__position = position
@@ -21,6 +22,13 @@ class Particle:
 
     def get_acceleration(self):
         return self.__acceleration
+
+
+class CelestialBody(Body):
+    pass
+
+class Particle(Body):
+    pass
 
 
 class Particles:
@@ -48,12 +56,13 @@ class Particles:
 
     @status_update
     def create_particles(self, planet_system_data, orbital_velocity_instance):
-        self.__particle_list.append(Particle(planet_system_data.get_host_mass() * MASS_SUN, [0, 0], [0, 0]))  # system host star
+        self.__particle_list.append(
+            CelestialBody(planet_system_data.get_host_mass() * MASS_SUN, [0, 0], [0, 0]))  # system host star
 
         for i in range(planet_system_data.get_planet_count()):
             self.__particle_list.append(
-                Particle(planet_system_data.get_planet_mass_list()[i], planet_system_data.get_position_list()[i],
-                         orbital_velocity_instance.get_velocity_list()[i]))
+                CelestialBody(planet_system_data.get_planet_mass_list()[i], planet_system_data.get_position_list()[i],
+                              orbital_velocity_instance.get_velocity_list()[i]))
 
     @status_update
     def add_particle(self, new_particle):
