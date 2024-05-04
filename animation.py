@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.animation as animation
 from decorators import status_update
+from constants import SIMULATIONS_FOLDER
 
 
 class ParticleAnimation:
@@ -47,4 +48,4 @@ class ParticleAnimation:
 
     @status_update
     def save_animation(self, filename='test.gif'):
-        self.__anim.save(filename, writer='pillow')
+        self.__anim.save(SIMULATIONS_FOLDER + filename, writer='pillow')
