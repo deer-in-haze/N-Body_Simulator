@@ -22,12 +22,12 @@ class MainApplication:
         self.master = master
         self.master.configure(bg="black")
         self.master.title("N-Body Simulator")
-        self.master.geometry("400x400")
+        self.master.geometry("400x450")
         self.create_widgets()
 
     def create_widgets(self):
 
-        tk.Label(self.master, text="Hostname:", bg="black", fg="white", ).pack()
+        tk.Label(self.master, text="Hostname:", bg="black", fg="white", ).pack(pady=(10, 0))
         self.hostname_combobox = ttk.Combobox(self.master, values=hostname_options, width=37, state="readonly")
         self.hostname_combobox.pack()
         self.hostname_combobox.set('Select hostname')
