@@ -18,7 +18,7 @@ class MainApplication:
     def __init__(self, master):
 
         self.style = ttk.Style()
-        self.style.configure("TCombobox", background="white", foreground="black")
+        self.style.configure("TCombobox", foreground="black")
         self.master = master
         self.master.configure(bg="black")
         self.master.title("N-Body Simulator")
@@ -68,7 +68,7 @@ class MainApplication:
         update_check.pack()
 
 
-        start_button = tk.Button(self.master, text="Start Simulation", bg="black", fg="white", command=self.run_simulation, highlightbackground="black", activebackground="blue", activeforeground="white")
+        start_button = tk.Button(self.master, text="Start Simulation", bg="black", fg="white", command=self.run_simulation, highlightbackground="black", activebackground="white", activeforeground="black")
         start_button.pack()
 
     def validate_hostname(self):
