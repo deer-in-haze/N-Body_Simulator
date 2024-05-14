@@ -28,7 +28,7 @@ class MainApplication:
     def create_widgets(self):
 
         tk.Label(self.master, text="Hostname:", bg="black", fg="white", ).pack(pady=(10, 0))
-        self.hostname_combobox = ttk.Combobox(self.master, values=hostname_options, width=37, state="readonly")
+        self.hostname_combobox = ttk.Combobox(self.master, values=hostname_options, width=30, state="readonly")
         self.hostname_combobox.pack()
         self.hostname_combobox.set('Select hostname')
 
@@ -37,29 +37,29 @@ class MainApplication:
         tk.Label(self.master, text="Particle system:", bg="black", fg="white").pack()
         particle_system_options = ['Select particle system','Three body system', 'Binary system', 'Earth system', 'Inner solar system',
                                    '9 particles']
-        self.particle_system_combobox = ttk.Combobox(self.master, values=particle_system_options, width=37, state="readonly")
+        self.particle_system_combobox = ttk.Combobox(self.master, values=particle_system_options, width=30, state="readonly")
         self.particle_system_combobox.pack(pady=5)
         self.particle_system_combobox.set('Select particle system')
 
         tk.Label(self.master, text="Time step:", bg="black", fg="white").pack(pady=(30, 0))
         time_step_options = ['Day', 'Hour', 'Minute', '20 ms']
-        self.time_step_combobox = ttk.Combobox(self.master, values=time_step_options, width=37, state="readonly")
+        self.time_step_combobox = ttk.Combobox(self.master, values=time_step_options, width=30, state="readonly")
         self.time_step_combobox.pack()
         self.time_step_combobox.set('Select time step')
 
-        tk.Label(self.master, text="Gravity constant:", bg="black", fg="white").pack()
+        tk.Label(self.master, text="Gravity constant(N⋅m2⋅kg−2):", bg="black", fg="white").pack()
         gravity_constant_options = ['6.67e-11', '0.001']
-        self.gravity_constant_combobox = ttk.Combobox(self.master, values=gravity_constant_options, width=37, state="readonly")
+        self.gravity_constant_combobox = ttk.Combobox(self.master, values=gravity_constant_options, width=30, state="readonly")
         self.gravity_constant_combobox.pack()
         self.gravity_constant_combobox.set('Select gravity constant')
 
-        tk.Label(self.master, text="Animation length:", bg="black", fg="white").pack()
-        self.animation_length_entry = tk.Entry(self.master, width=40)
+        tk.Label(self.master, text="Animation length(s):", bg="black", fg="white").pack()
+        self.animation_length_entry = tk.Entry(self.master, width=31)
         self.animation_length_entry.pack()
         self.animation_length_entry.insert(0, '4')
 
         tk.Label(self.master, text="Title:", bg="black", fg="white").pack()
-        self.title_entry = tk.Entry(self.master, width=40)
+        self.title_entry = tk.Entry(self.master, width=31)
         self.title_entry.pack()
         self.title_entry.insert(0, 'test_sample.gif')
 
