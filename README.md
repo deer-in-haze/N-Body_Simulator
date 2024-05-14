@@ -39,6 +39,8 @@ This will launch the graphical user interface (GUI) of the simulator.
 
 Upon launching the application, you will see the following components:
 
+![Alt text](https://github.com/deer-in-haze/N-Body_Simulator/blob/main/DATA/application_examples/Screenshot%20from%202024-05-14%2022-24-09.png)
+
 - **Hostname:** Select the hostname for data retrieval or choose a predefined particle system.
 - **Particle System:** Choose from various predefined particle systems or select a custom one.
 - **Time Step:** Choose the time step for the simulation.
@@ -51,6 +53,8 @@ Upon launching the application, you will see the following components:
 ### Simulation Results
 
 Once the simulation is complete, a pop-up window will display the simulation results in the form of an animated GIF.
+
+![Alt text](https://github.com/deer-in-haze/N-Body_Simulator/blob/main/DATA/application_examples/Screenshot%20from%202024-05-14%2022-09-01.png)
 
 ![Alt Text](https://github.com/deer-in-haze/N-Body_Simulator/blob/main/SIMULATIONS/Binary%20system.gif?raw=true)
 
