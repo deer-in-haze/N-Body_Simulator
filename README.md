@@ -1,5 +1,5 @@
 # N-Body Simulator
-IEVOS BRANCHAS
+
 The N-Body Simulator is a Python application that simulates the dynamics of celestial bodies interacting through gravitational forces. This simulator provides a graphical representation of the simulated system and allows users to customize various parameters such as the particle system, time step, gravity constant, and animation length.
 
 ![Alt Text](https://github.com/deer-in-haze/N-Body_Simulator/blob/main/SIMULATIONS/Inner%20Solar%20system.gif?raw=true)
